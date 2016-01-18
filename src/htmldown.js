@@ -11,7 +11,7 @@ const isHeading = /^h(\d)$/
 /**
  * Replace html heading with markdown heading
  */
-function parseHeading(tag, el) {
+function parseHeading(el, tag) {
 	const content = el.html()
 	el.replaceWith(`${'#'.repeat(tag)} ${content}`)
 }
@@ -55,7 +55,7 @@ export default function htmldown(html, {
 		constructor($) {
 			this.$ = $
 		}
-		
+
 		a(el, content) {
 			const href = el.attr('href')
 			el.replaceWith(
@@ -142,7 +142,7 @@ export default function htmldown(html, {
 		}
 
 		h1(el, content, tag) {
-			parseHeading(isHeading.exec(tag)[1], el)
+			parseHeading(el, isHeading.exec(tag)[1])
 		}
 	}
 
