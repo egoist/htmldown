@@ -89,7 +89,7 @@ export default function htmldown(html, {
 					el.replaceWith('\n')
 				},
 				ul() {
-					el.find('li').each(function () {
+					el.find('li').each(function (index) {
 						const li = $(this)
 						const liContent = li.html()
 						li.replaceWith(
