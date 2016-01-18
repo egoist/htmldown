@@ -1,6 +1,6 @@
 {
   "name": "htmldown",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "main": "index.js",
   "jsnext:main": "src/htmldown.js",
   "description": "My spectacular module",

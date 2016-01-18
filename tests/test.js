@@ -3,6 +3,7 @@ require('babel-core/register')({
 })
 const htmldown = require('../src/htmldown').default
 import test from 'ava'
+import fs from 'fs'
 
 test('a', t => {
 	const text = htmldown('<a href="http://google.com"></a><a href="http://google.com">wow</a>')
@@ -17,4 +18,10 @@ test('b', t => {
 test('hr', t => {
 	const text = htmldown('foo<hr>bar')
 	t.same(text, 'foo\n\n---\n\nbar')
+})
+
+test('fixture', t => {
+	let data = fs.readFileSync('./fixture.html', 'utf8')
+	data = htmldown(data)
+	t.same(typeof data, 'string')
 })

@@ -103,7 +103,7 @@ export default function htmldown(html, {
 				const li = $(this)
 				const liContent = li.html()
 				li.replaceWith(
-					`${tag === 'ul' ? '-' : `${index + 1}.`} ${liContent} \n`
+					`${tag === 'ul' ? '-' : `${index + 1}.`} ${liContent}\n`
 				)
 			})
 			// Refetch html
