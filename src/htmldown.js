@@ -51,9 +51,7 @@ export default function htmldown(html, {
 	escapeTags = [],
 	getLanguage = defaultGetLanguage
 } = {}) {
-	const $ = cheerio.load(minify(html, {
-		collapseWhitespace: true
-	}), {
+	const $ = cheerio.load(minify(html), {
 		decodeEntities: false
 	})
 

@@ -1,6 +1,6 @@
 {
   "name": "htmldown",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "index.js",
   "jsnext:main": "src/htmldown.js",
   "description": "My spectacular module",
@@ -19,11 +19,13 @@
   },
   "scripts": {
     "test": "xo && ava tests/test*.js",
-    "build": "rollup -c"
+    "build:cjs": "rollup -c",
+    "build:browser": "npm run build:cjs && webpack"
   },
   "files": [
     "index.js",
-    "src"
+    "src",
+    "htmldown.browser.js"
   ],
   "keywords": [
     "markdown",
@@ -36,16 +38,19 @@
     "ava": "^0.10.0",
     "babel-preset-es2015-rollup": "^1.1.1",
     "cz-conventional-changelog": "^1.1.5",
+    "json-loader": "^0.5.4",
     "rollup": "^0.25.0",
     "rollup-plugin-babel": "^2.3.9",
     "rollup-plugin-json": "^2.0.0",
+    "webpack": "^1.12.11",
     "xo": "^0.12.1"
   },
   "xo": {
     "semicolon": false,
     "esnext": true,
     "ignores": [
-      "index.js"
+      "index.js",
+      "htmldown.browser.js"
     ]
   },
   "config": {
