@@ -55,6 +55,7 @@ export default function htmldown(html, {
 		constructor($) {
 			this.$ = $
 		}
+		
 		a(el, content) {
 			const href = el.attr('href')
 			el.replaceWith(
