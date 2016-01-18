@@ -1,7 +1,7 @@
 require('babel-core/register')({
 	presets: ['es2015']
 })
-const htmldown = require('./src/htmldown').default
+const htmldown = require('../src/htmldown').default
 import test from 'ava'
 
 test('a', t => {

@@ -1,6 +1,6 @@
 {
   "name": "htmldown",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "index.js",
   "jsnext:main": "src/htmldown.js",
   "description": "My spectacular module",
@@ -18,7 +18,7 @@
     "htmldown": "./cli.js"
   },
   "scripts": {
-    "test": "xo && ava",
+    "test": "xo && ava tests/test*.js",
     "build": "rollup -c"
   },
   "files": [
@@ -30,8 +30,7 @@
     "html"
   ],
   "dependencies": {
-    "cheerio": "^0.19.0",
-    "html-minifier": "^1.1.1"
+    "cheerio": "^0.19.0"
   },
   "devDependencies": {
     "ava": "^0.10.0",
@@ -52,6 +51,12 @@
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "tooling": {
+    "index": {
+      "title": "htmldown",
+      "template": "example/index.html"
     }
   }
 }

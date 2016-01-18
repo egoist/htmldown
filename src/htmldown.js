@@ -1,5 +1,4 @@
 import cheerio from 'cheerio'
-import {minify} from 'html-minifier'
 import tags from './tags.json'
 import defaultEscapeTags from './defaultEscapeTags.json'
 
@@ -39,6 +38,13 @@ function defaultGetLanguage(className) {
 		return re.exec(className)[1]
 	}
 	return null
+}
+
+/**
+ * Minify html
+ */
+function minify(html) {
+	return html.replace(/[\t\n\r]+/g, '')
 }
 
 export default function htmldown(html, {
@@ -109,7 +115,7 @@ export default function htmldown(html, {
 			)
 		}
 
-		i(el, content) {
+		em(el, content) {
 			el.replaceWith(`*${content}*`)
 		}
 
@@ -193,7 +199,7 @@ export default function htmldown(html, {
 	/**
 	 * Compress 3 or more \n to 2
 	 */
-	text = text.replace(/\n{3,}/g, '\n\n')
+	text = text.replace(/([\r?\n]){3,}/g, '\n\n')
 
 	/**
 	 * Return text
