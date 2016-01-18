@@ -51,100 +51,123 @@ export default function htmldown(html, {
 		decodeEntities: false
 	})
 
+	class Parser {
+		constructor($) {
+			this.$ = $
+		}
+		a(el, content) {
+			const href = el.attr('href')
+			el.replaceWith(
+				`[${content}](${href})`
+			)
+		}
+
+		img(el) {
+			const src = el.attr('src')
+			const alt = el.attr('alt')
+			el.replaceWith(
+				`![${alt}](${src})`
+			)
+		}
+
+		b(el, content) {
+			el.replaceWith(
+				wrapWith(content, '**')
+			)
+		}
+
+		p(el, content) {
+			el.replaceWith(
+				ensureBlock(content)
+			)
+		}
+
+		hr(el) {
+			el.replaceWith(
+				ensureBlock('---')
+			)
+		}
+
+		br(el) {
+			el.replaceWith('\n')
+		}
+
+		ul(el, content, tag) {
+			const $ = this.$
+			el.find('li').each(function (index) {
+				const li = $(this)
+				const liContent = li.html()
+				li.replaceWith(
+					`${tag === 'ul' ? '-' : `${index + 1}.`} ${liContent} \n`
+				)
+			})
+			// Refetch html
+			const listContent = el.html()
+			el.replaceWith(
+				ensureBlock(listContent)
+			)
+		}
+
+		i(el, content) {
+			el.replaceWith(`*${content}*`)
+		}
+
+		blockquote(el, content) {
+			el.replaceWith(
+				ensureBlock(`> ${content.trim()}`)
+			)
+		}
+
+		pre(el) {
+			const preSep = '```'
+			const code = el.find('code')
+			const lang = getLanguage(code.attr('class'))
+			const preContent = code.text().trim()
+			el.replaceWith(
+				wrapWith(
+					wrapWith(preContent, '\n'),
+					lang ? preSep + lang : preSep,
+					preSep
+				)
+			)
+		}
+
+		code(el) {
+			const codeSep = '`'
+			const codeContent = el.text()
+			el.replaceWith(
+				wrapWith(codeContent, codeSep)
+			)
+		}
+
+		h1(el, content, tag) {
+			parseHeading(isHeading.exec(tag)[1], el)
+		}
+	}
+
+	/**
+	 * Initial a instance of parser
+	 */
+	const parser = new Parser($)
+
+	/**
+	 * Alias tags
+	 */
+	parser.ol = parser.ul
+	parser.h2 = parser.h3 = parser.h4 = parser.h5 = parser.h1
+
+	/**
+	 * Parse html
+	 */
 	tags.forEach(tag => {
 		$(tag).each(function () {
 			const el = $(this)
 			const content = el.html()
 
-			const solutions = {
-				a() {
-					const href = el.attr('href')
-					el.replaceWith(
-						`[${content}](${href})`
-					)
-				},
-				img() {
-					const src = el.attr('src')
-					const alt = el.attr('alt')
-					el.replaceWith(
-						`![${alt}](${src})`
-					)
-				},
-				b() {
-					el.replaceWith(
-						wrapWith(content, '**')
-					)
-				},
-				p() {
-					el.replaceWith(
-						ensureBlock(content)
-					)
-				},
-				hr() {
-					el.replaceWith(
-						ensureBlock('---')
-					)
-				},
-				br() {
-					el.replaceWith('\n')
-				},
-				ul() {
-					el.find('li').each(function (index) {
-						const li = $(this)
-						const liContent = li.html()
-						li.replaceWith(
-							`${tag === 'ul' ? '-' : `${index + 1}.`} ${liContent} \n`
-						)
-					})
-					// Refetch html
-					const listContent = el.html()
-					el.replaceWith(
-						ensureBlock(listContent)
-					)
-				},
-				i() {
-					el.replaceWith(`*${content}*`)
-				},
-				blockquote() {
-					el.replaceWith(
-						ensureBlock(`> ${content.trim()}`)
-					)
-				},
-				pre() {
-					const preSep = '```'
-					const code = el.find('code')
-					const lang = getLanguage(code.attr('class'))
-					const preContent = code.text().trim()
-					el.replaceWith(
-						wrapWith(
-							wrapWith(preContent, '\n'),
-							lang ? preSep + lang : preSep,
-							preSep
-						)
-					)
-				},
-				code() {
-					const codeSep = '`'
-					const codeContent = el.text()
-					el.replaceWith(
-						wrapWith(codeContent, codeSep)
-					)
-				},
-				h1() {
-					parseHeading(isHeading.exec(tag)[1], el)
-				}
-			}
-
-			/**
-			 * Alias tags
-			 */
-			solutions.ol = solutions.ul
-			solutions.h2 = solutions.h3 = solutions.h4 = solutions.h5 = solutions.h1
-
 			/**
 			 * Apply solution to available tags
 			 */
-			solutions[tag]()
+			parser[tag](el, content, tag)
 		})
 	})
 
