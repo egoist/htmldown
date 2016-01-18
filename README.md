@@ -42,15 +42,6 @@ Type: `Function`
 
 Define a function to tell it how to extract code block language from a className.
 
-## Development
-
-```bash
-# dev 
-tooling watch -e example
-# build 
-tooling build -e example
-```
-
 ## License
 
-MIT © [](https://github.com/egoist)
+MIT © [EGOIST](https://github.com/egoist)
