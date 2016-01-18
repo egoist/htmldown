@@ -147,7 +147,7 @@ export default function htmldown(html, {
 	}
 
 	/**
-	 * Initial a instance of parser
+	 * Initial an instance of the parser
 	 */
 	const parser = new Parser($)
 
