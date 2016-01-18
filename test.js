@@ -4,18 +4,17 @@ require('babel-core/register')({
 const htmldown = require('./src/htmldown').default
 import test from 'ava'
 
-test('main', t => {
-	const html = `<h1 class="asd">123</h1>
-<br>
-<h1 class="aesd">443</h1>
-<p>
-<ul>
-	<li>a</li>
-	<li>b</li>
-</ul>
-wer<br><b>sdfs</b><br>
-fsdf<span>pan</span>
-</p>`
-	console.log(htmldown(html))
-	t.pass()
+test('a', t => {
+	const text = htmldown('<a href="http://google.com"></a><a href="http://google.com">wow</a>')
+	t.same(text, '[](http://google.com)[wow](http://google.com)')
+})
+
+test('b', t => {
+	const text = htmldown('<b>foo</b>')
+	t.same(text, '**foo**')
+})
+
+test('hr', t => {
+	const text = htmldown('foo<hr>bar')
+	t.same(text, 'foo\n\n---\n\nbar')
 })
