@@ -2,6 +2,8 @@
 
 > Convert HTML to Markdown-format text
 
+[Online demo](http://jsbin.com/mawuto/edit?js,output)
+
 ## Install
 
 ```
